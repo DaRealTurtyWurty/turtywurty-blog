@@ -3,6 +3,10 @@ import {FullArticle} from "@/app/lib/interface";
 import Image from "next/image";
 import Link from "next/link";
 import {PortableText} from "@portabletext/react";
+import Code from "@/app/components/code";
+import Youtube from "@/app/components/youtube";
+
+export const revalidate = 60; // 1 minute
 
 async function getData(slug: string) {
     const query = `
@@ -18,10 +22,24 @@ async function getData(slug: string) {
     return await client.fetch(query);
 }
 
+const components = {
+    types: {
+        code: ({value}: { value: { language: string, code: string }, isInline: boolean }) => {
+            return <Code language={value.language} children={value.code} />;
+        },
+        image: ({value}: { value: { asset: { _ref: string } }, isInline: boolean }) => {
+            const src = urlFor(value.asset._ref).url();
+            return <Image src={src} alt={value.asset._ref} width={800} height={400}
+                          className="rounded-lg border dark:border-none"/>;
+        },
+        youtube: ({value, isInline}: { value: { url: string }, isInline: boolean }) => {
+            return <Youtube value={value} isInline={isInline}/>;
+        }
+    }
+};
+
 export default async function BlogArticle({params}: { params: { slug: string } }) {
     const data: FullArticle = await getData(params.slug);
-    console.log(data);
-
     const author = data.author;
 
     return (
@@ -48,7 +66,7 @@ export default async function BlogArticle({params}: { params: { slug: string } }
                 height={400}/>
 
             <div className="mt-16 text-gray-800 dark:text-gray-100 prose prose-blue prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:link:text-primary">
-                <PortableText value={data.content} />
+                <PortableText value={data.content} components={components}/>
             </div>
         </div>
     );
