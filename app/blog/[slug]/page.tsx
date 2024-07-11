@@ -5,6 +5,7 @@ import Link from "next/link";
 import {PortableText} from "@portabletext/react";
 import Code from "@/app/components/code";
 import Youtube from "@/app/components/youtube";
+import Map from "@/app/components/map";
 
 export const revalidate = 60; // 1 minute
 
@@ -25,7 +26,7 @@ async function getData(slug: string) {
 const components = {
     types: {
         code: ({value}: { value: { language: string, code: string }, isInline: boolean }) => {
-            return <Code language={value.language} children={value.code} />;
+            return <Code language={value.language} children={value.code}/>;
         },
         image: ({value}: { value: { asset: { _ref: string } }, isInline: boolean }) => {
             const src = urlFor(value.asset._ref).url();
@@ -34,6 +35,25 @@ const components = {
         },
         youtube: ({value, isInline}: { value: { url: string }, isInline: boolean }) => {
             return <Youtube value={value} isInline={isInline}/>;
+        },
+        geopoint: ({value, isInline}: { value: { lat: number, lng: number }, isInline: boolean }) => {
+            return <Map value={value} isInline={isInline}/>;
+        },
+        table: ({value}: { value: { rows: { cells: string[] }[] } }) => {
+            console.log(value.rows.flatMap(row => row.cells));
+            return (
+                <table className="table-auto w-full">
+                    <tbody>
+                    {value.rows.map((row, index) => (
+                        <tr key={index}>
+                            {row.cells.map((cell, index) => (
+                                <td key={index} className="border px-4 py-2">{cell}</td>
+                            ))}
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+            );
         }
     }
 };
@@ -65,7 +85,8 @@ export default async function BlogArticle({params}: { params: { slug: string } }
                 width={800}
                 height={400}/>
 
-            <div className="mt-16 text-gray-800 dark:text-gray-100 prose prose-blue prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:link:text-primary">
+            <div
+                className="mt-16 text-gray-800 dark:text-gray-100 prose prose-blue prose-lg dark:prose-invert prose-li:marker:text-primary prose-a:link:text-primary">
                 <PortableText value={data.content} components={components}/>
             </div>
         </div>

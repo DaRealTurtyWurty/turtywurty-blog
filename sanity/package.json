@@ -16,12 +16,15 @@
   ],
   "dependencies": {
     "@sanity/code-input": "^4.1.4",
+    "@sanity/table": "^1.1.2",
     "@sanity/ui": "^2.6.3",
     "@sanity/vision": "^3.49.0",
-    "react": "^18.2.0",
+    "react": "^18.3.1",
     "react-dom": "^18.2.0",
     "react-player": "^2.16.0",
     "sanity": "^3.49.0",
+    "sanity-plugin-latex-input": "^0.0.5",
+    "sanity-plugin-leaflet-input": "^1.0.1",
     "styled-components": "^6.1.8"
   },
   "devDependencies": {

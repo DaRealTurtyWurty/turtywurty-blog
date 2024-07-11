@@ -3,6 +3,8 @@ import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
 import {codeInput} from "@sanity/code-input";
+import {table} from '@sanity/table';
+import {latexInput} from "sanity-plugin-latex-input";
 
 export default defineConfig({
   name: 'default',
@@ -11,7 +13,7 @@ export default defineConfig({
   projectId: '44axw0y5',
   dataset: 'production',
 
-  plugins: [structureTool(), visionTool(), codeInput()],
+  plugins: [structureTool(), visionTool(), codeInput(), table()],
 
   schema: {
     types: schemaTypes,
