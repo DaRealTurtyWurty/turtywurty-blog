@@ -26,7 +26,7 @@ async function getData(slug: string) {
 const components = {
     types: {
         code: ({value}: { value: { language: string, code: string }, isInline: boolean }) => {
-            return <Code language={value.language} children={value.code}/>;
+            return <Code language={value.language}>{value.code}</Code>;
         },
         image: ({value}: { value: { asset: { _ref: string } }, isInline: boolean }) => {
             const src = urlFor(value.asset._ref).url();
