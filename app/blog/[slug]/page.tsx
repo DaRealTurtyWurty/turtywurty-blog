@@ -40,7 +40,6 @@ const components = {
             return <Map value={value} isInline={isInline}/>;
         },
         table: ({value}: { value: { rows: { cells: string[] }[] } }) => {
-            console.log(value.rows.flatMap(row => row.cells));
             return (
                 <table className="table-auto w-full">
                     <tbody>
