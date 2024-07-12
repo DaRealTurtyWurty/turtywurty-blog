@@ -3,5 +3,5 @@
 import ReactPlayer from "react-player";
 
 export default function Youtube({ value }: { value: { url: string }, isInline: boolean }) {
-    return <ReactPlayer url={value.url} />;
+    return <ReactPlayer url={value.url} width="100%" />;
 }
