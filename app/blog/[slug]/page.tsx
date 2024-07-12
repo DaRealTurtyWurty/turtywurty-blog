@@ -15,6 +15,8 @@ async function getData(slug: string) {
       "slug": slug.current,
         title,
         "description": smallDescription,
+        "createdAt": _createdAt,
+        "updatedAt": _updatedAt,
         "image": mainImage,
         "author": author->{name, image, "slug": slug.current},
         content
@@ -61,21 +63,30 @@ export default async function BlogArticle({params}: { params: { slug: string } }
     const data: FullArticle = await getData(params.slug);
     const author = data.author;
 
+    const updatedIsCreated = new Date(data.createdAt).toDateString() === new Date(data.updatedAt).toDateString();
+
     return (
         <div className="mt-5">
             <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 text-center block leading-8 tracking-tight">{data.title}</h1>
             <p className="text-gray-500 dark:text-gray-400 text-center mt-2">{data.description}</p>
 
-            <Link href={`/author/${author.slug}`}>
-                <div className="flex items-center mt-3 cursor-pointer mb-5">
-                    <Image src={urlFor(author.image).url()} alt={author.name} className="h-10 w-10 rounded-full"
-                           width={40} height={40}/>
-                    <div className="ml-3">
-                        <h1 className="text-lg font-semibold text-gray-800 dark:text-gray-100">{author.name}</h1>
-                        <p className="text-gray-500 dark:text-gray-400">Written by {author.name}</p>
+            <div className="w-full mt-5 flex flex-row justify-between items-center">
+                <Link href={`/person/${author.slug}`}>
+                    <div className="flex items-center mt-3 cursor-pointer mb-5">
+                        <Image src={urlFor(author.image).url()} alt={author.name} className="h-10 w-10 rounded-full"
+                               width={40} height={40}/>
+                        <div className="ml-3">
+                            <h1 className="text-lg font-semibold text-gray-800 dark:text-gray-100">{author.name}</h1>
+                            <p className="text-gray-500 dark:text-gray-400">Written by {author.name}</p>
+                        </div>
                     </div>
+                </Link>
+
+                <div className="text-gray-500 dark:text-gray-400 text-sm mt-auto">
+                    <p>Created on: {new Date(data.createdAt).toDateString()}</p>
+                    {!updatedIsCreated && <p>Last updated: {new Date(data.updatedAt).toDateString()}</p>}
                 </div>
-            </Link>
+            </div>
             <Image
                 src={urlFor(data.image).url()}
                 alt={data.title}

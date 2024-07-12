@@ -20,6 +20,12 @@ export default {
             }
         },
         {
+            name: 'category',
+            type: 'reference',
+            title: 'Category',
+            to: [{ type: 'category' }]
+        },
+        {
             name: 'author',
             type: 'reference',
             title: 'Author',
