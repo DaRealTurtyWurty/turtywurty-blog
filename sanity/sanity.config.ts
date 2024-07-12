@@ -4,7 +4,6 @@ import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
 import {codeInput} from "@sanity/code-input";
 import {table} from '@sanity/table';
-import {latexInput} from "sanity-plugin-latex-input";
 
 export default defineConfig({
   name: 'default',
