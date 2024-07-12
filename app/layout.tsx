@@ -3,6 +3,7 @@ import {Inter} from "next/font/google";
 import "./globals.css";
 import {ThemeProvider} from "@/app/components/theme-provider";
 import Navbar from "@/app/components/navbar";
+import Footer from "@/app/components/footer";
 
 const inter = Inter({subsets: ["latin"]});
 
@@ -25,10 +26,13 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
         >
-            <Navbar/>
-            <main className="flex flex-col max-w-2xl mx-auto px-4">
-                {children}
-            </main>
+            <div className="min-h-screen grid grid-rows-[auto,1fr,auto]">
+                <Navbar/>
+                <main className="flex flex-col max-w-2xl mx-auto px-4">
+                    {children}
+                </main>
+                <Footer />
+            </div>
         </ThemeProvider>
         </body>
         </html>
