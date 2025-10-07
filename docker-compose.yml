@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    env_file:
+      - .env
+    networks:
+      - turtywurty-blog-network
+      - my-network
+
+  sanity:
+    build:
+      context: ./sanity
+      dockerfile: Dockerfile
+    ports:
+      - "3333:3333"
+    networks:
+      - turtywurty-blog-network
+
+networks:
+  turtywurty-blog-network:
+    driver: bridge
+  my-network:
+    external: true
